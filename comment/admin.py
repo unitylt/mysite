@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import Comment
 
-
-@admin.register(Comment)  # 注册对应的模型
+# Register your models here.
+@admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('content_object', 'text', 'comment_time', 'user')
+    list_display = ('id', 'content_object', 'text', 'comment_time', 'user', 'root', 'parent')

@@ -1,7 +1,7 @@
 import datetime
 from django.contrib.contenttypes.models import ContentType
 from django.utils import timezone
-from django.db.models import Sum  # 求和
+from django.db.models import Sum
 from .models import ReadNum, ReadDetail
 
 
@@ -22,33 +22,25 @@ def read_statistics_once_read(request, obj):
         readDetail.save()
     return key
 
-
 def get_seven_days_read_data(content_type):
-    today = timezone.now().date()  # 取出当天数据
+    today = timezone.now().date()
     dates = []
     read_nums = []
-    for i in range(7, 0, -1):  # 7, 0, -1  range(6,-1,-1)，这个才有今天的
+    for i in range(7, 0, -1):
         date = today - datetime.timedelta(days=i)
         dates.append(date.strftime('%m/%d'))
         read_details = ReadDetail.objects.filter(content_type=content_type, date=date)
         result = read_details.aggregate(read_num_sum=Sum('read_num'))
-        # 如果前者是false那么就取值后者
-        read_nums.append(result['read_num_sum'] or 0)  # 利用数据库的聚合运算 当天阅读有多个数据 只需要得到之和
+        read_nums.append(result['read_num_sum'] or 0)
     return dates, read_nums
 
-
-# 今天的热门阅读
 def get_today_hot_data(content_type):
     today = timezone.now().date()
-    read_details = ReadDetail.objects.filter(content_type=content_type, date=today).order_by(
-        '-read_num')  # 先筛选在排序 将查询结果保存
-    return read_details[:7]  # 切片器 取前七条数据
+    read_details = ReadDetail.objects.filter(content_type=content_type, date=today).order_by('-read_num')
+    return read_details[:7]
 
-
-# 昨天的热门阅读
 def get_yesterday_hot_data(content_type):
     today = timezone.now().date()
     yesterday = today - datetime.timedelta(days=1)
-    read_details = ReadDetail.objects.filter(content_type=content_type, date=yesterday).order_by(
-        '-read_num')  # 先筛选在排序 将查询结果保存
+    read_details = ReadDetail.objects.filter(content_type=content_type, date=yesterday).order_by('-read_num')
     return read_details[:7]
