@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+from .base import *
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
@@ -42,7 +43,7 @@ DATABASES = {
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.qq.com'
 EMAIL_PORT = 25
-EMAIL_HOST_USER = '36359145@qq.com'
+EMAIL_HOST_USER = '363459145@qq.com'
 EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']  # 授权码
-EMAIL_SUBJECT_PREFIX = '[LT的博客]'
+EMAIL_SUBJECT_PREFIX = '[杨仕航的博客] '
 EMAIL_USE_TLS = True  # 与SMTP服务器通信时，是否启动TLS链接(安全链接)
